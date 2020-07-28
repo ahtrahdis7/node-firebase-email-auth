@@ -9,17 +9,19 @@ var usersRouter = require('./routes/users');
 var loginRouter = require('./routes/login');
 var signupRouter = require('./routes/signup');
 var dashboardRouter = require('./routes/dashboard');
-var otpRouter = require('./routes/otp');
+var otpRouter = require('./routes/enterOtp');
 
 // Firebase App (the core Firebase SDK) is always required and
 // must be listed before other Firebase SDKs
-var firebase = require("firebase/app");
+var firebase = require("firebase");
 
 // Add the Firebase products that you want to use
 require("firebase/auth");
 require("firebase/firestore");
-import {firebaseConfig} from './config/FirebaseConfig';
+var firebaseConfig = require('./config/FirebaseConfig');
+
 firebase.initializeApp(firebaseConfig);
+require("firebase/database");
 
 
 var app = express();
