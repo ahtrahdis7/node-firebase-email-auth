@@ -2,32 +2,10 @@ var express = require('express');
 var router = express.Router();
 var firebase = require("firebase");
 
-// function writeUserData(userId, firstname, lastname,phone, email, username, other) {
-//   console.log("writing user data to database")
-//   firebase.database().ref('users/' + userId).set({
-//     firstname: firstname,
-//     lastname: lastname,
-//     email: email,
-//     phone:phone,
-//     username: username,
-//     other: other
-//   });
-// }
 
-function sendEmailVerification() {
-  var user = firebase.auth().currentUser;
-
-  user.sendEmailVerification().then(function() {
-  // Email sent.
-  }).catch(function(error) {
-  // An error happened.
-  });
-}
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-
-    if(req.body){
       firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
           // User is signed in.
@@ -45,9 +23,21 @@ router.get('/', function(req, res, next) {
         // [START_EXCLUDE silent]
         // [END_EXCLUDE]
       });
-    }
-  // console.log(res.body.userDetails);
+
+
   res.render('dashboard');
 });
+
+router.post('/', (req, res, next) => {
+  
+  firebase.auth().signOut().then(function() {
+    console.log(" Sign-out successful.")
+  }).catch(function(error) {
+    // An error happened.
+    res.redirect('error', {message: error.message})
+
+  });
+  res.redirect('login');
+})
 
 module.exports = router;
